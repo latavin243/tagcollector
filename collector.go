@@ -24,7 +24,10 @@ func Collect(inputStruct interface{}, tagNames []string) (fieldTagEntries []*Fie
 
 		tagNameValueMap := make(map[string]string)
 		for _, tagName := range tagNames {
-			tagValue := fieldType.Tag.Get(tagName)
+			tagValue, ok := fieldType.Tag.Lookup(tagName)
+			if !ok {
+				continue
+			}
 			tagNameValueMap[tagName] = tagValue
 		}
 
